@@ -1,0 +1,43 @@
+defaultTasks 'clean', 'test', 'aggregate'
+
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'net.serenity-bdd.aggregator'
+
+
+repositories {
+    mavenLocal()
+    jcenter()
+}
+
+buildscript {
+ repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+                classpath('net.serenity-bdd:serenity-gradle-plugin:2.4.24')
+                classpath('net.serenity-bdd:serenity-single-page-report:2.4.24')
+            }
+}
+dependencies {
+            testImplementation 'junit:junit:4.13.1'
+            testImplementation 'net.serenity-bdd:serenity-core:2.4.24'
+            testImplementation 'net.serenity-bdd:serenity-cucumber6:2.6.0'
+            testImplementation 'net.serenity-bdd:serenity-screenplay:2.6.0'
+            testImplementation 'net.serenity-bdd:serenity-screenplay-rest:2.6.0'
+            testImplementation 'net.serenity-bdd:serenity-rest-assured:2.6.0'
+            testImplementation 'io.rest-assured:rest-assured:2.6.0'
+            testImplementation 'net.serenity-bdd:serenity-junit:2.4.24'
+            testImplementation 'org.assertj:assertj-core:3.4+'
+            testImplementation 'org.slf4j:slf4j-simple:1.7+'
+        }
+
+test {
+    testLogging.showStandardStreams = true
+    systemProperties System.getProperties()
+}
+
+gradle.startParameter.continueOnFailure = true
+
+test.finalizedBy(aggregate)
